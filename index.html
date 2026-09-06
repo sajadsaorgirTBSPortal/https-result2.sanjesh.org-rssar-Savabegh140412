@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سامانه استعلام نتایج | سازمان سنجش</title>
+<style>
+  @font-face { font-family:'Vazirmatn'; src:local('Vazirmatn'); }
+  :root{
+    --ink:#1c2530;
+    --paper:#f2efe6;
+    --line:#d6cfba;
+    --accent:#1a5c8a;
+    --accent-dark:#0e3d5e;
+    --gold:#b8892f;
+    --white:#ffffff;
+    --muted:#83807a;
+  }
+  *{ box-sizing:border-box; margin:0; }
+  html, body{ margin:0; padding:0; width:100%; }
+  body{
+    font-family:'Vazirmatn','Tahoma',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    font-size:14px;
+    line-height:1.6;
+  }
+
+  .official-header{
+    background:var(--accent-dark);
+    color:var(--white);
+    padding:12px 5vw;
+    border-bottom:3px solid var(--gold);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .official-header .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .official-header .logo-icon{
+    width:48px;
+    height:48px;
+    background:var(--white);
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    border:1px solid var(--gold);
+  }
+  .official-header .logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .official-header .title-group{
+    display:flex;
+    flex-direction:column;
+  }
+  .official-header .title-group .org{
+    font-size:1rem;
+    font-weight:700;
+    letter-spacing:0.3px;
+  }
+  .official-header .title-group .sub{
+    font-size:0.7rem;
+    color:#bcd2c9;
+    font-weight:400;
+  }
+
+  main{ max-width:600px; margin:0 auto; padding:28px 16px 50px; }
+
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .form-card{ padding:24px 24px 20px; }
+  .form-card h2{
+    margin:0 0 4px;
+    font-size:1.1rem;
+    font-weight:700;
+    color:var(--accent-dark);
+    border-right:4px solid var(--gold);
+    padding-right:10px;
+  }
+  .form-card .sub{
+    margin:0 0 18px 0;
+    color:var(--muted);
+    font-size:0.78rem;
+    padding-right:14px;
+  }
+
+  label{
+    display:block;
+    font-size:0.72rem;
+    font-weight:600;
+    margin-bottom:3px;
+    color:#4a4a44;
+  }
+  input[type=text], select{
+    width:100%;
+    padding:8px 10px;
+    font-size:0.85rem;
+    border:1.2px solid var(--line);
+    border-radius:3px;
+    background:#fbfaf6;
+    color:var(--ink);
+    font-family:inherit;
+  }
+  input[type=text]:focus, select:focus{
+    outline:none;
+    border-color:var(--accent);
+    background:var(--white);
+  }
+  input#nid{ letter-spacing:1.5px; }
+
+  .row{ margin-bottom:14px; }
+  .g2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .photo-top{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:12px 16px;
+    background:#fbfaf6;
+    border:1.2px solid var(--line);
+    border-radius:3px;
+    margin-bottom:16px;
+  }
+  .photo-top .photo-box{
+    width:64px;
+    height:80px;
+    border-radius:3px;
+    overflow:hidden;
+    flex-shrink:0;
+    background:#eceae3;
+    border:1px solid var(--line);
+  }
+  .photo-top .photo-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .photo-top .photo-label{
+    font-size:0.78rem;
+    font-weight:600;
+    color:var(--accent-dark);
+  }
+  .photo-top .photo-hint{
+    font-size:0.65rem;
+    color:var(--muted);
+  }
+
+  .error-msg{
+    color:#a4322a;
+    font-size:0.72rem;
+    margin-top:4px;
+    display:none;
+  }
+
+  button.submit{
+    width:100%;
+    margin-top:6px;
+    padding:10px;
+    background:var(--accent);
+    color:var(--white);
+    border:none;
+    border-radius:3px;
+    font-family:inherit;
+    font-size:0.85rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:background 0.15s;
+  }
+  button.submit:hover{ background:var(--accent-dark); }
+
+  #result{ margin-top:18px; display:none; }
+  .result-head{
+    background:var(--accent-dark);
+    color:var(--white);
+    padding:10px 18px;
+    border-radius:4px 4px 0 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px;
+    font-size:0.8rem;
+  }
+  .result-head .status{ font-weight:700; }
+  .result-body{ padding:18px 20px; }
+
+  .id-strip{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding-bottom:14px;
+    margin-bottom:14px;
+    border-bottom:1px dashed var(--line);
+  }
+  .id-photo{
+    width:60px;
+    height:76px;
+    border-radius:3px;
+    overflow:hidden;
+    flex-shrink:0;
+    background:#eceae3;
+    border:1px solid var(--line);
+  }
+  .id-photo img{ width:100%; height:100%; object-fit:cover; }
+  .id-fields{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px 14px;
+    flex:1;
+  }
+  .id-fields .field{ font-size:0.72rem; line-height:1.5; }
+  .id-fields .k{ color:var(--muted); }
+  .id-fields .v{ font-weight:600; color:var(--ink); }
+
+  .detail-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-bottom:14px;
+    font-size:0.76rem;
+  }
+  .detail-table tr{ border-bottom:1px solid #eee6d3; }
+  .detail-table tr:last-child{ border-bottom:none; }
+  .detail-table td{ padding:6px 4px; }
+  .detail-table td.k{ color:var(--muted); width:42%; }
+  .detail-table td.v{ font-weight:600; color:var(--ink); }
+
+  .rank-box{
+    background:#f0f6f3;
+    border:1px solid #cfe4db;
+    border-radius:3px;
+    padding:14px;
+    text-align:center;
+    margin-bottom:14px;
+  }
+  .rank-box .k{ font-size:0.72rem; color:#4b6b60; margin-bottom:3px; }
+  .rank-box .v{ font-size:1.9rem; font-weight:900; color:var(--accent-dark); line-height:1; }
+  .rank-box .field-name{ font-size:0.74rem; color:#4b6b60; margin-top:3px; }
+
+  .barcode{
+    height:34px;
+    background:repeating-linear-gradient(90deg,#222 0 2px,transparent 2px 4px,#222 4px 6px,transparent 6px 9px);
+    margin-bottom:4px;
+  }
+  .barcode-num{
+    text-align:center;
+    font-size:0.65rem;
+    letter-spacing:3px;
+    color:var(--muted);
+    margin-bottom:12px;
+  }
+
+  #gateScreen{ max-width:400px; margin:60px auto 0; padding:0 16px; }
+  .gate-card{ padding:30px 24px 24px; text-align:center; }
+  .gate-card .seal-lg{
+    width:60px;
+    height:60px;
+    border-radius:4px;
+    background:var(--white);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 14px;
+    overflow:hidden;
+    border:1px solid var(--gold);
+  }
+  .gate-card .seal-lg img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .gate-card h2{
+    margin:0 0 4px;
+    font-size:1.1rem;
+    color:var(--accent-dark);
+  }
+  .gate-card .sub{
+    margin:0 0 20px;
+    color:var(--muted);
+    font-size:0.78rem;
+  }
+  .gate-card .row{ text-align:right; margin-bottom:14px; }
+
+  footer{
+    text-align:center;
+    padding:20px 16px 30px;
+    color:var(--muted);
+    font-size:0.7rem;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+  }
+
+  @media (max-width:420px){
+    .g2{ grid-template-columns:1fr; }
+    .id-fields{ grid-template-columns:1fr; }
+    .form-card{ padding:16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="official-header">
+  <div class="logo">
+    <div class="logo-icon">
+      <img src="https://cdn.imgurl.ir/uploads/e068078_Screenshot_20260906_222611_Chrome_Beta.jpg" alt="لوگو">
+    </div>
+    <div class="title-group">
+      <span class="org">سازمان سنجش آموزش کشور</span>
+      <span class="sub">پرتال استعلام نتایج</span>
+    </div>
+  </div>
+</header>
+
+<div id="gateScreen">
+  <div class="card gate-card">
+    <div class="seal-lg">
+      <img src="https://cdn.imgurl.ir/uploads/e068078_Screenshot_20260906_222611_Chrome_Beta.jpg" alt="لوگو">
+    </div>
+    <h2>استعلام نتیجه پذیرش</h2>
+    <p class="sub">کد ملی و شماره داوطلبی را وارد کنید</p>
+
+    <form id="gateForm">
+      <div class="row">
+        <label for="gateNid">کد ملی</label>
+        <input type="text" id="gateNid" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم" autocomplete="off">
+      </div>
+      <div class="row">
+        <label for="gateCand">شماره داوطلبی</label>
+        <input type="text" id="gateCand" inputmode="numeric" placeholder="شماره داوطلبی را وارد کنید" autocomplete="off">
+      </div>
+      <div class="error-msg" id="gateErr">کد ملی باید ۱۰ رقم باشد.</div>
+      <button type="submit" class="submit">ورود به سامانه</button>
+    </form>
+  </div>
+</div>
+
+<main id="mainScreen" style="display:none;">
+  <div class="card form-card">
+    <h2>استعلام نتیجه پذیرش</h2>
+    <p class="sub">مشخصات داوطلب را تکمیل کنید</p>
+
+    <form id="inquiryForm">
+      <div class="photo-top">
+        <div class="photo-box" id="photoPreview">
+          <img src="https://cdn.imgurl.ir/uploads/y880395_1788720836078.png" alt="عکس داوطلب">
+        </div>
+        <div>
+          <div class="photo-label">عکس داوطلب</div>
+          <div class="photo-hint">تصویر از سامانه</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="row">
+          <label for="fname">نام</label>
+          <input type="text" id="fname" placeholder="نام" value="نادیا سادات">
+        </div>
+        <div class="row">
+          <label for="lname">نام خانوادگی</label>
+          <input type="text" id="lname" placeholder="نام خانوادگی" value="دانش ادیب">
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="row">
+          <label for="nid">کد ملی</label>
+          <input type="text" id="nid" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم" autocomplete="off" value="0021160686">
+        </div>
+        <div class="row">
+          <label for="birth">تاریخ تولد</label>
+          <input type="text" id="birth" placeholder="۱۳۸۵/۰۴/۱۲" value="۱۳۷۷/۰۲/۱۴">
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="row">
+          <label for="group">گروه آزمایشی</label>
+          <select id="group">
+            <option value="علوم تجربی" selected>علوم تجربی</option>
+            <option value="علوم ریاضی">علوم ریاضی</option>
+            <option value="علوم انسانی">علوم انسانی</option>
+            <option value="هنر">هنر</option>
+            <option value="زبان‌های خارجی">زبان‌های خارجی</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="season">دوره آزمون</label>
+          <select id="season">
+            <option>مرداد ۱۴۰۵</option>
+            <option>خرداد ۱۴۰۴</option>
+            <option>تیر ۱۴۰۴</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errMsg">کد ملی باید ۱۰ رقم باشد.</div>
+
+      <button type="submit" class="submit">مشاهده نتیجه</button>
+    </form>
+  </div>
+
+  <div class="card" id="result">
+    <div class="result-head">
+      <span class="status">وضعیت: قبول‌شده در گروه آزمایشی</span>
+      <span id="dateText"></span>
+    </div>
+    <div class="result-body">
+
+      <div class="id-strip">
+        <div class="id-photo" id="idPhotoBox">
+          <img src="https://cdn.imgurl.ir/uploads/y880395_1788720836078.png" alt="عکس داوطلب">
+        </div>
+        <div class="id-fields">
+          <div class="field"><span class="k">نام و نام خانوادگی: </span><span class="v" id="outName">نادیا سادات دانش ادیب</span></div>
+          <div class="field"><span class="k">کد ملی: </span><span class="v" id="outNid">۰۰۲۱۱۶۰۶۸۶</span></div>
+          <div class="field"><span class="k">تاریخ تولد: </span><span class="v" id="outBirth">۱۳۷۷/۰۲/۱۴</span></div>
+          <div class="field"><span class="k">شماره داوطلبی: </span><span class="v" id="outCandNo">۱۴۰۵۴۳۰</span></div>
+          <div class="field"><span class="k">گروه آزمایشی: </span><span class="v" id="outGroup">علوم تجربی</span></div>
+          <div class="field"><span class="k">دوره آزمون: </span><span class="v" id="outSeason">مرداد ۱۴۰۵</span></div>
+        </div>
+      </div>
+
+      <table class="detail-table">
+        <tr><td class="k">حوزه امتحانی</td><td class="v" id="outCity">تهران، منطقه ۲</td></tr>
+        <tr><td class="k">کد رشته امتحانی</td><td class="v" id="outCode">۳۰۵۰۰۲</td></tr>
+        <tr><td class="k">نمره کل (تراز)</td><td class="v" id="outScore">۹۲۶۸</td></tr>
+        <tr><td class="k">سهمیه</td><td class="v">آزاد</td></tr>
+        <tr><td class="k">وضعیت کارنامه</td><td class="v">قطعی</td></tr>
+      </table>
+
+      <div class="rank-box">
+        <div class="k">رتبه در گروه آزمایشی</div>
+        <div class="v">۷۶۴</div>
+        <div class="field-name" id="outGroup2">علوم تجربی</div>
+      </div>
+
+      <div class="barcode"></div>
+      <div class="barcode-num" id="outBarcode">۰۰۲۱۱۶۰۶۸۶۰۰۱۴۰۵</div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  © ۲۰۲۶ سازمان سنجش آموزش کشور — تمامی حقوق محفوظ است.
+</footer>
+
+<script>
+document.getElementById('gateForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const nid = document.getElementById('gateNid').value.trim();
+  const cand = document.getElementById('gateCand').value.trim();
+  const gateErr = document.getElementById('gateErr');
+
+  if(!/^\d{10}$/.test(nid)){
+    gateErr.style.display = 'block';
+    return;
+  }
+  gateErr.style.display = 'none';
+
+  document.getElementById('nid').value = nid;
+  if(cand) presetCandNo = cand;
+
+  document.getElementById('gateScreen').style.display = 'none';
+  document.getElementById('mainScreen').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+let presetCandNo = null;
+
+function toFaDigits(str){
+  const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(str).replace(/[0-9]/g, d => fa[d]);
+}
+
+document.getElementById('inquiryForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const nid = document.getElementById('nid').value.trim();
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const birth = document.getElementById('birth').value.trim();
+  const group = document.getElementById('group').value;
+  const season = document.getElementById('season').value;
+  const err = document.getElementById('errMsg');
+  const result = document.getElementById('result');
+
+  if(!/^\d{10}$/.test(nid)){
+    err.style.display = 'block';
+    result.style.display = 'none';
+    return;
+  }
+  err.style.display = 'none';
+
+  document.getElementById('outName').textContent = (fname + ' ' + lname).trim() || 'نادیا سادات دانش ادیب';
+  document.getElementById('outNid').textContent = toFaDigits(nid);
+  document.getElementById('outBirth').textContent = birth || '۱۳۷۷/۰۲/۱۴';
+  document.getElementById('outCandNo').textContent = toFaDigits(presetCandNo || '۱۴۰۵۴۳۰');
+  document.getElementById('outGroup').textContent = group;
+  document.getElementById('outGroup2').textContent = group;
+  document.getElementById('outSeason').textContent = season;
+  document.getElementById('outCity').textContent = 'تهران، منطقه ۲';
+  document.getElementById('outCode').textContent = toFaDigits('305' + nid.slice(2,5));
+  document.getElementById('outScore').textContent = toFaDigits((9200 + (parseInt(nid.slice(-3))||0)));
+  document.getElementById('outBarcode').textContent = toFaDigits(nid + '00' + season.slice(-4));
+
+  const now = new Date();
+  document.getElementById('dateText').textContent =
+    now.toLocaleDateString('fa-IR', {year:'numeric', month:'long', day:'numeric'});
+
+  result.style.display = 'block';
+  result.scrollIntoView({behavior:'smooth', block:'start'});
+});
+</script>
+
+</body>
+</html>
