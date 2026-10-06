@@ -355,7 +355,7 @@
     <form id="inquiryForm">
       <div class="photo-top">
         <div class="photo-box" id="photoPreview">
-          <img src="https://cdn.imgurl.ir/uploads/y880395_1788720836078.png" alt="عکس داوطلب">
+          <img src="https://cdn.imgurl.ir/uploads/l711968_1788812213133.png" alt="عکس داوطلب">
         </div>
         <div>
           <div class="photo-label">عکس داوطلب</div>
@@ -366,22 +366,22 @@
       <div class="g2">
         <div class="row">
           <label for="fname">نام</label>
-          <input type="text" id="fname" placeholder="نام" value="نادیا سادات">
+          <input type="text" id="fname" placeholder="نام" value="علی">
         </div>
         <div class="row">
           <label for="lname">نام خانوادگی</label>
-          <input type="text" id="lname" placeholder="نام خانوادگی" value="دانش ادیب">
+          <input type="text" id="lname" placeholder="نام خانوادگی" value="اربابی">
         </div>
       </div>
 
       <div class="g2">
         <div class="row">
           <label for="nid">کد ملی</label>
-          <input type="text" id="nid" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم" autocomplete="off" value="0021160686">
+          <input type="text" id="nid" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم" autocomplete="off" value="3610965509">
         </div>
         <div class="row">
           <label for="birth">تاریخ تولد</label>
-          <input type="text" id="birth" placeholder="۱۳۸۵/۰۴/۱۲" value="۱۳۷۷/۰۲/۱۴">
+          <input type="text" id="birth" placeholder="۱۳۸۵/۰۴/۱۲" value="۱۳۷۵/۰۸/۱۵">
         </div>
       </div>
 
@@ -399,9 +399,9 @@
         <div class="row">
           <label for="season">دوره آزمون</label>
           <select id="season">
-            <option>مرداد ۱۴۰۵</option>
-            <option>خرداد ۱۴۰۴</option>
-            <option>تیر ۱۴۰۴</option>
+            <option value="مرداد ۱۴۰۵" selected>مرداد ۱۴۰۵</option>
+            <option value="خرداد ۱۴۰۴">خرداد ۱۴۰۴</option>
+            <option value="تیر ۱۴۰۴">تیر ۱۴۰۴</option>
           </select>
         </div>
       </div>
@@ -414,41 +414,43 @@
 
   <div class="card" id="result">
     <div class="result-head">
-      <span class="status">وضعیت: قبول‌شده در گروه آزمایشی</span>
+      <span class="status">وضعیت: قبول‌شده در رشته دندانپزشکی</span>
       <span id="dateText"></span>
     </div>
     <div class="result-body">
 
       <div class="id-strip">
         <div class="id-photo" id="idPhotoBox">
-          <img src="https://cdn.imgurl.ir/uploads/y880395_1788720836078.png" alt="عکس داوطلب">
+          <img src="https://cdn.imgurl.ir/uploads/l711968_1788812213133.png" alt="عکس داوطلب">
         </div>
         <div class="id-fields">
-          <div class="field"><span class="k">نام و نام خانوادگی: </span><span class="v" id="outName">نادیا سادات دانش ادیب</span></div>
-          <div class="field"><span class="k">کد ملی: </span><span class="v" id="outNid">۰۰۲۱۱۶۰۶۸۶</span></div>
-          <div class="field"><span class="k">تاریخ تولد: </span><span class="v" id="outBirth">۱۳۷۷/۰۲/۱۴</span></div>
-          <div class="field"><span class="k">شماره داوطلبی: </span><span class="v" id="outCandNo">۱۴۰۵۴۳۰</span></div>
+          <div class="field"><span class="k">نام و نام خانوادگی: </span><span class="v" id="outName">علی اربابی</span></div>
+          <div class="field"><span class="k">کد ملی: </span><span class="v" id="outNid">۳۶۱۰۹۶۵۵۰۹</span></div>
+          <div class="field"><span class="k">تاریخ تولد: </span><span class="v" id="outBirth">۱۳۷۵/۰۸/۱۵</span></div>
+          <div class="field"><span class="k">شماره داوطلبی: </span><span class="v" id="outCandNo">۱۵۴۷۷۱۲</span></div>
           <div class="field"><span class="k">گروه آزمایشی: </span><span class="v" id="outGroup">علوم تجربی</span></div>
           <div class="field"><span class="k">دوره آزمون: </span><span class="v" id="outSeason">مرداد ۱۴۰۵</span></div>
         </div>
       </div>
 
       <table class="detail-table">
+        <tr><td class="k">رشته قبولی</td><td class="v">دندانپزشکی</td></tr>
+        <tr><td class="k">دانشگاه محل قبولی</td><td class="v">دانشگاه دولتی مشهد</td></tr>
         <tr><td class="k">حوزه امتحانی</td><td class="v" id="outCity">تهران، منطقه ۲</td></tr>
-        <tr><td class="k">کد رشته امتحانی</td><td class="v" id="outCode">۳۰۵۰۰۲</td></tr>
-        <tr><td class="k">نمره کل (تراز)</td><td class="v" id="outScore">۹۲۶۸</td></tr>
+        <tr><td class="k">کد رشته امتحانی</td><td class="v" id="outCode">۳۰۵۰۱۰</td></tr>
+        <tr><td class="k">نمره کل (تراز)</td><td class="v" id="outScore">۹۵۵۰</td></tr>
         <tr><td class="k">سهمیه</td><td class="v">آزاد</td></tr>
         <tr><td class="k">وضعیت کارنامه</td><td class="v">قطعی</td></tr>
       </table>
 
       <div class="rank-box">
         <div class="k">رتبه در گروه آزمایشی</div>
-        <div class="v">۷۶۴</div>
+        <div class="v">۷۳۸</div>
         <div class="field-name" id="outGroup2">علوم تجربی</div>
       </div>
 
       <div class="barcode"></div>
-      <div class="barcode-num" id="outBarcode">۰۰۲۱۱۶۰۶۸۶۰۰۱۴۰۵</div>
+      <div class="barcode-num" id="outBarcode">۳۶۱۰۹۶۵۵۰۹۰۰۱۴۰۵</div>
 
     </div>
   </div>
@@ -504,10 +506,10 @@ document.getElementById('inquiryForm').addEventListener('submit', function(e){
   }
   err.style.display = 'none';
 
-  document.getElementById('outName').textContent = (fname + ' ' + lname).trim() || 'نادیا سادات دانش ادیب';
+  document.getElementById('outName').textContent = (fname + ' ' + lname).trim() || 'علی اربابی';
   document.getElementById('outNid').textContent = toFaDigits(nid);
-  document.getElementById('outBirth').textContent = birth || '۱۳۷۷/۰۲/۱۴';
-  document.getElementById('outCandNo').textContent = toFaDigits(presetCandNo || '۱۴۰۵۴۳۰');
+  document.getElementById('outBirth').textContent = birth || '۱۳۷۵/۰۸/۱۵';
+  document.getElementById('outCandNo').textContent = toFaDigits(presetCandNo || '۱۵۴۷۷۱۲');
   document.getElementById('outGroup').textContent = group;
   document.getElementById('outGroup2').textContent = group;
   document.getElementById('outSeason').textContent = season;
