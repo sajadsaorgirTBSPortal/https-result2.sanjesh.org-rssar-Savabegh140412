@@ -3,477 +3,527 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استعلام دانشنامه - دانشگاه آزاد اسلامی</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>سامانه استعلام نتایج | سازمان سنجش</title>
 <style>
+  @font-face { font-family:'Vazirmatn'; src:local('Vazirmatn'); }
   :root{
-    --navy-deep:#1B2A5B;
-    --navy-mid:#2B3E7E;
-    --sky:#E8EAF6;
-    --paper:#EEF0F8;
-    --ink:#1A1A1A;
-    --ink-soft:#5B6472;
-    --line:#DDE2EF;
-    --ok:#2F6B4F;
-    --ok-bg:#E7F1EA;
-    --ok-line:#BFDBC9;
-    --err:#A63B2A;
-    --err-bg:#F7E9E4;
-    --blue-btn:#2455C4;
-    --red-btn:#B7402E;
+    --ink:#1c2530;
+    --paper:#f2efe6;
+    --line:#d6cfba;
+    --accent:#1a5c8a;
+    --accent-dark:#0e3d5e;
+    --gold:#b8892f;
+    --white:#ffffff;
+    --muted:#83807a;
   }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  *{ box-sizing:border-box; margin:0; }
+  html, body{ margin:0; padding:0; width:100%; }
   body{
-    font-family:'Vazirmatn', sans-serif;
-    background:#DDE2E9;
+    font-family:'Vazirmatn','Tahoma',sans-serif;
+    background:var(--paper);
     color:var(--ink);
-    min-height:100vh;
-    line-height:1.7;
+    font-size:14px;
+    line-height:1.6;
   }
 
-  main{max-width:520px;margin:0 auto;padding:0 20px 60px;}
+  .official-header{
+    background:var(--accent-dark);
+    color:var(--white);
+    padding:12px 5vw;
+    border-bottom:3px solid var(--gold);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .official-header .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .official-header .logo-icon{
+    width:48px;
+    height:48px;
+    background:var(--white);
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    overflow:hidden;
+    border:1px solid var(--gold);
+  }
+  .official-header .logo-icon img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .official-header .title-group{
+    display:flex;
+    flex-direction:column;
+  }
+  .official-header .title-group .org{
+    font-size:1rem;
+    font-weight:700;
+    letter-spacing:0.3px;
+  }
+  .official-header .title-group .sub{
+    font-size:0.7rem;
+    color:#bcd2c9;
+    font-weight:400;
+  }
 
-  .brand-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0 -20px 20px -20px;
-    padding: 0;
-    background: #fff;
-  }
-  .brand-logo img {
-    width: 100%;
-    height: auto;
-    max-height: none;
-    display: block;
-    object-fit: cover;
-  }
+  main{ max-width:600px; margin:0 auto; padding:28px 16px 50px; }
 
   .card{
-    background:#fff;
+    background:var(--white);
     border:1px solid var(--line);
-    border-radius:18px;
-    padding:34px 28px;
-    box-shadow:0 8px 24px rgba(27,42,91,0.08);
-    margin-top: 0;
+    border-radius:4px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.02);
   }
 
-  .intro-text{
-    text-align:center;
-    margin-bottom:28px;
+  .form-card{ padding:24px 24px 20px; }
+  .form-card h2{
+    margin:0 0 4px;
+    font-size:1.1rem;
+    font-weight:700;
+    color:var(--accent-dark);
+    border-right:4px solid var(--gold);
+    padding-right:10px;
   }
-  .intro-text h2{
-    margin:0 0 12px;font-size:18px;font-weight:700;color:#1E3FC4;
-  }
-  .intro-text p{
-    margin:0;font-size:14px;color:var(--ink-soft);
+  .form-card .sub{
+    margin:0 0 18px 0;
+    color:var(--muted);
+    font-size:0.78rem;
+    padding-right:14px;
   }
 
-  .field{margin-bottom:22px;}
-  .field label{
-    display:block;font-size:14px;font-weight:600;margin-bottom:10px;color:var(--navy-deep);
+  label{
+    display:block;
+    font-size:0.72rem;
+    font-weight:600;
+    margin-bottom:3px;
+    color:#4a4a44;
   }
-  .field input{
+  input[type=text], select{
     width:100%;
-    padding:14px 16px;
-    font-family:inherit;
-    font-size:15px;
-    text-align:center;
-    border:1px solid #D8DCE3;
-    border-radius:10px;
-    background:#fff;
+    padding:8px 10px;
+    font-size:0.85rem;
+    border:1.2px solid var(--line);
+    border-radius:3px;
+    background:#fbfaf6;
     color:var(--ink);
+    font-family:inherit;
   }
-  .field input::placeholder{color:#A6ACB8;}
-  .field input:focus{
+  input[type=text]:focus, select:focus{
     outline:none;
-    border-color:var(--blue-btn);
-    background:#fff;
+    border-color:var(--accent);
+    background:var(--white);
+  }
+  input#nid{ letter-spacing:1.5px; }
+
+  .row{ margin-bottom:14px; }
+  .g2{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .photo-top{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:12px 16px;
+    background:#fbfaf6;
+    border:1.2px solid var(--line);
+    border-radius:3px;
+    margin-bottom:16px;
+  }
+  .photo-top .photo-box{
+    width:64px;
+    height:80px;
+    border-radius:3px;
+    overflow:hidden;
+    flex-shrink:0;
+    background:#eceae3;
+    border:1px solid var(--line);
+  }
+  .photo-top .photo-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .photo-top .photo-label{
+    font-size:0.78rem;
+    font-weight:600;
+    color:var(--accent-dark);
+  }
+  .photo-top .photo-hint{
+    font-size:0.65rem;
+    color:var(--muted);
   }
 
-  .captcha-row{
-    display:flex;align-items:center;gap:12px;margin-bottom:22px;
-    direction:ltr;justify-content:flex-start;
-  }
-  .captcha-row canvas{
-    border:1px solid #D8DCE3;
-    border-radius:10px;
-    background:#fff;
-    flex:none;
-  }
-  .captcha-input{width:120px;flex:none;}
-  .captcha-input input{
-    width:100%;padding:12px 10px;font-family:inherit;font-size:15px;text-align:center;
-    border:1px solid #D8DCE3;border-radius:10px;background:#fff;color:var(--ink);
-  }
-  .captcha-input input::placeholder{color:#A6ACB8;font-size:13px;}
-  .refresh-btn{
-    background:none;border:none;cursor:pointer;font-size:18px;color:var(--navy-mid);
-    padding:6px;flex:none;
+  .error-msg{
+    color:#a4322a;
+    font-size:0.72rem;
+    margin-top:4px;
+    display:none;
   }
 
   button.submit{
     width:100%;
-    background:var(--blue-btn);
-    color:#fff;
+    margin-top:6px;
+    padding:10px;
+    background:var(--accent);
+    color:var(--white);
     border:none;
-    padding:14px;
+    border-radius:3px;
     font-family:inherit;
-    font-size:15.5px;
+    font-size:0.85rem;
     font-weight:700;
-    border-radius:12px;
     cursor:pointer;
+    transition:background 0.15s;
   }
-  button.submit:disabled{background:#9AA4B0;cursor:progress;}
+  button.submit:hover{ background:var(--accent-dark); }
 
-  .back-link{
-    display:block;text-align:center;margin-top:20px;
-    font-size:14px;color:#3A4A7A;text-decoration:none;
+  #result{ margin-top:18px; display:none; }
+  .result-head{
+    background:var(--accent-dark);
+    color:var(--white);
+    padding:10px 18px;
+    border-radius:4px 4px 0 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:6px;
+    font-size:0.8rem;
   }
+  .result-head .status{ font-weight:700; }
+  .result-body{ padding:18px 20px; }
 
-  .captcha-error{
-    font-size:12.5px;color:var(--err);margin-top:-14px;margin-bottom:18px;display:none;
+  .id-strip{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding-bottom:14px;
+    margin-bottom:14px;
+    border-bottom:1px dashed var(--line);
   }
-  .captcha-error.show{display:block;}
-
-  .result-view{display:none;}
-  .result-view.show{display:block;}
-
-  .status-banner{
-    border-radius:10px;
-    padding:18px 20px;
-    margin-bottom:18px;
-    text-align:center;
-  }
-  .status-banner.ok{background:var(--ok-bg);border:1px solid var(--ok-line);}
-  .status-banner.err{background:var(--err-bg);border:1px solid #E3BEB3;}
-  .status-banner .title{font-weight:800;font-size:16px;margin-bottom:6px;}
-  .status-banner.ok .title{color:var(--ok);}
-  .status-banner.err .title{color:var(--err);}
-  .status-banner .sub{font-size:13px;color:var(--ink-soft);}
-
-  .person-card{
-    background:#fff;
-    border:1px solid var(--line);
-    border-radius:14px;
+  .id-photo{
+    width:60px;
+    height:76px;
+    border-radius:3px;
     overflow:hidden;
-    text-align:center;
-  }
-  .person-name-section{
-    background:#EEF1FA;
-    padding:24px 20px;
-  }
-  .person-name{font-size:18px;font-weight:800;color:var(--navy-deep);margin-bottom:14px;}
-  .id-badge{
-    display:inline-block;
-    background:#fff;
+    flex-shrink:0;
+    background:#eceae3;
     border:1px solid var(--line);
-    border-radius:8px;
-    padding:9px 16px;
-    font-size:14px;
-    color:var(--navy-mid);
-    font-weight:600;
   }
-  .attr{
-    padding:18px 20px;
-    background:#F7F8FB;
-    border-top:1px solid var(--line);
+  .id-photo img{ width:100%; height:100%; object-fit:cover; }
+  .id-fields{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px 14px;
+    flex:1;
   }
-  .attr:nth-of-type(odd){background:#fff;}
-  .attr .k{font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;}
-  .attr .v{font-size:15.5px;font-weight:700;color:var(--navy-deep);}
+  .id-fields .field{ font-size:0.72rem; line-height:1.5; }
+  .id-fields .k{ color:var(--muted); }
+  .id-fields .v{ font-weight:600; color:var(--ink); }
 
-  .result-actions{margin-top:22px;display:flex;flex-direction:column;gap:12px;}
-  button.action-blue, button.action-red{
+  .detail-table{
     width:100%;
-    border:none;
-    padding:14px;
-    font-family:inherit;
-    font-size:15px;
-    font-weight:700;
-    border-radius:10px;
-    cursor:pointer;
-    color:#fff;
+    border-collapse:collapse;
+    margin-bottom:14px;
+    font-size:0.76rem;
   }
-  button.action-blue{background:var(--blue-btn);}
-  button.action-red{background:var(--red-btn);}
+  .detail-table tr{ border-bottom:1px solid #eee6d3; }
+  .detail-table tr:last-child{ border-bottom:none; }
+  .detail-table td{ padding:6px 4px; }
+  .detail-table td.k{ color:var(--muted); width:42%; }
+  .detail-table td.v{ font-weight:600; color:var(--ink); }
 
-  .note{
-    margin-top:26px;
-    padding-top:18px;
-    border-top:1px solid var(--line);
-    font-size:12px;
-    color:var(--ink-soft);
+  .rank-box{
+    background:#f0f6f3;
+    border:1px solid #cfe4db;
+    border-radius:3px;
+    padding:14px;
     text-align:center;
+    margin-bottom:14px;
+  }
+  .rank-box .k{ font-size:0.72rem; color:#4b6b60; margin-bottom:3px; }
+  .rank-box .v{ font-size:1.9rem; font-weight:900; color:var(--accent-dark); line-height:1; }
+  .rank-box .field-name{ font-size:0.74rem; color:#4b6b60; margin-top:3px; }
+
+  .barcode{
+    height:34px;
+    background:repeating-linear-gradient(90deg,#222 0 2px,transparent 2px 4px,#222 4px 6px,transparent 6px 9px);
+    margin-bottom:4px;
+  }
+  .barcode-num{
+    text-align:center;
+    font-size:0.65rem;
+    letter-spacing:3px;
+    color:var(--muted);
+    margin-bottom:12px;
+  }
+
+  #gateScreen{ max-width:400px; margin:60px auto 0; padding:0 16px; }
+  .gate-card{ padding:30px 24px 24px; text-align:center; }
+  .gate-card .seal-lg{
+    width:60px;
+    height:60px;
+    border-radius:4px;
+    background:var(--white);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 14px;
+    overflow:hidden;
+    border:1px solid var(--gold);
+  }
+  .gate-card .seal-lg img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .gate-card h2{
+    margin:0 0 4px;
+    font-size:1.1rem;
+    color:var(--accent-dark);
+  }
+  .gate-card .sub{
+    margin:0 0 20px;
+    color:var(--muted);
+    font-size:0.78rem;
+  }
+  .gate-card .row{ text-align:right; margin-bottom:14px; }
+
+  footer{
+    text-align:center;
+    padding:20px 16px 30px;
+    color:var(--muted);
+    font-size:0.7rem;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+  }
+
+  @media (max-width:420px){
+    .g2{ grid-template-columns:1fr; }
+    .id-fields{ grid-template-columns:1fr; }
+    .form-card{ padding:16px; }
   }
 </style>
 </head>
 <body>
 
-<main>
-
-  <div class="brand-logo">
-    <img src="https://cdn.imgurl.ir/uploads/i322905_Islamic_Azad_University_Medical_Branch_of_Tehran_Logo.jpg" alt="دانشگاه آزاد اسلامی - علوم پزشکی تهران">
-  </div>
-
-  <div class="card" id="formCard">
-    <div class="intro-text">
-      <h2>استعلام دانشنامه</h2>
-      <p>لطفاً کد تایید دانشنامه خود را وارد کنید</p>
+<header class="official-header">
+  <div class="logo">
+    <div class="logo-icon">
+      <img src="https://cdn.imgurl.ir/uploads/e068078_Screenshot_20260906_222611_Chrome_Beta.jpg" alt="لوگو">
     </div>
+    <div class="title-group">
+      <span class="org">سازمان سنجش آموزش کشور</span>
+      <span class="sub">پرتال استعلام نتایج</span>
+    </div>
+  </div>
+</header>
+
+<div id="gateScreen">
+  <div class="card gate-card">
+    <div class="seal-lg">
+      <img src="https://cdn.imgurl.ir/uploads/e068078_Screenshot_20260906_222611_Chrome_Beta.jpg" alt="لوگو">
+    </div>
+    <h2>استعلام نتیجه پذیرش</h2>
+    <p class="sub">کد ملی و شماره داوطلبی را وارد کنید</p>
+
+    <form id="gateForm">
+      <div class="row">
+        <label for="gateNid">کد ملی</label>
+        <input type="text" id="gateNid" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم" autocomplete="off">
+      </div>
+      <div class="row">
+        <label for="gateCand">شماره داوطلبی</label>
+        <input type="text" id="gateCand" inputmode="numeric" placeholder="شماره داوطلبی را وارد کنید" autocomplete="off">
+      </div>
+      <div class="error-msg" id="gateErr">کد ملی باید ۱۰ رقم باشد.</div>
+      <button type="submit" class="submit">ورود به سامانه</button>
+    </form>
+  </div>
+</div>
+
+<main id="mainScreen" style="display:none;">
+  <div class="card form-card">
+    <h2>استعلام نتیجه پذیرش</h2>
+    <p class="sub">مشخصات داوطلب را تکمیل کنید</p>
 
     <form id="inquiryForm">
-      <div class="field">
-        <label for="trackingCode">کد تایید دانشنامه / گواهی موقت پایان تحصیلات:</label>
-
-        <input type="text" id="trackingCode" inputmode="numeric" maxlength="12" placeholder="شماره دانشنامه خود را وارد کنید">
-
-        <div class="captcha-error" id="codeError" style="margin-top:8px;">لطفاً شماره دانشنامه خود را وارد کنید.</div>
-      </div>
-
-      <label style="display:block;font-size:14px;font-weight:600;margin-bottom:10px;color:var(--navy-deep);">تایید امنیتی:</label>
-      <div class="captcha-row">
-        <canvas id="captchaCanvas" width="140" height="56"></canvas>
-        <div class="captcha-input">
-          <input type="text" id="captchaAnswer" placeholder="جواب" required>
+      <div class="photo-top">
+        <div class="photo-box" id="photoPreview">
+          <img src="https://cdn.imgurl.ir/uploads/k84683_1791276446225.png" alt="عکس داوطلب">
         </div>
-        <button type="button" class="refresh-btn" id="refreshCaptcha" title="تغییر کد">⟳</button>
+        <div>
+          <div class="photo-label">عکس داوطلب</div>
+          <div class="photo-hint">تصویر از سامانه</div>
+        </div>
       </div>
-      <div class="captcha-error" id="captchaError">پاسخ تایید امنیتی صحیح نیست.</div>
 
-      <button type="submit" class="submit" id="submitBtn">بررسی دانشنامه</button>
+      <div class="g2">
+        <div class="row">
+          <label for="fname">نام</label>
+          <input type="text" id="fname" placeholder="نام" value="علی">
+        </div>
+        <div class="row">
+          <label for="lname">نام خانوادگی</label>
+          <input type="text" id="lname" placeholder="نام خانوادگی" value="اربابی">
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="row">
+          <label for="nid">کد ملی</label>
+          <input type="text" id="nid" inputmode="numeric" maxlength="10" placeholder="۱۰ رقم" autocomplete="off" value="3610965509">
+        </div>
+        <div class="row">
+          <label for="birth">تاریخ تولد</label>
+          <input type="text" id="birth" placeholder="۱۳۸۵/۰۴/۱۲" value="۱۳۷۵/۰۸/۱۵">
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="row">
+          <label for="group">گروه آزمایشی</label>
+          <select id="group">
+            <option value="علوم تجربی" selected>علوم تجربی</option>
+            <option value="علوم ریاضی">علوم ریاضی</option>
+            <option value="علوم انسانی">علوم انسانی</option>
+            <option value="هنر">هنر</option>
+            <option value="زبان‌های خارجی">زبان‌های خارجی</option>
+          </select>
+        </div>
+        <div class="row">
+          <label for="season">دوره آزمون</label>
+          <select id="season">
+            <option value="مرداد ۱۴۰۵" selected>مرداد ۱۴۰۵</option>
+            <option value="خرداد ۱۴۰۴">خرداد ۱۴۰۴</option>
+            <option value="تیر ۱۴۰۴">تیر ۱۴۰۴</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errMsg">کد ملی باید ۱۰ رقم باشد.</div>
+
+      <button type="submit" class="submit">مشاهده نتیجه</button>
     </form>
-
-    <a href="#" class="back-link">بازگشت به صفحه اصلی</a>
   </div>
 
-  <div class="result-view" id="resultView">
-    <div class="status-banner" id="statusBanner">
-      <div class="title" id="statusTitle"></div>
-      <div class="sub" id="statusSub"></div>
+  <div class="card" id="result">
+    <div class="result-head">
+      <span class="status">وضعیت: قبول‌شده در رشته پزشکی عمومی</span>
+      <span id="dateText"></span>
     </div>
+    <div class="result-body">
 
-    <div class="person-card" id="personCard" style="display:none;">
-      <div class="person-name-section">
-        <div class="person-name" id="pName"></div>
-        <div class="id-badge">کد ملی: <span id="pNid"></span></div>
+      <div class="id-strip">
+        <div class="id-photo" id="idPhotoBox">
+          <img src="https://cdn.imgurl.ir/uploads/k84683_1791276446225.png" alt="عکس داوطلب">
+        </div>
+        <div class="id-fields">
+          <div class="field"><span class="k">نام و نام خانوادگی: </span><span class="v" id="outName">علی اربابی</span></div>
+          <div class="field"><span class="k">کد ملی: </span><span class="v" id="outNid">۳۶۱۰۹۶۵۵۰۹</span></div>
+          <div class="field"><span class="k">تاریخ تولد: </span><span class="v" id="outBirth">۱۳۷۵/۰۸/۱۵</span></div>
+          <div class="field"><span class="k">شماره داوطلبی: </span><span class="v" id="outCandNo">۱۵۴۷۷۱۲</span></div>
+          <div class="field"><span class="k">گروه آزمایشی: </span><span class="v" id="outGroup">علوم تجربی</span></div>
+          <div class="field"><span class="k">دوره آزمون: </span><span class="v" id="outSeason">مرداد ۱۴۰۵</span></div>
+        </div>
       </div>
 
-      <div class="attr">
-        <div class="k">رشته تحصیلی</div>
-        <div class="v" id="pField"></div>
-      </div>
-      <div class="attr">
-        <div class="k">مقطع تحصیلی</div>
-        <div class="v" id="pDegree"></div>
-      </div>
-      <div class="attr">
-        <div class="k">واحد</div>
-        <div class="v" id="pUnit"></div>
-      </div>
-    </div>
+      <table class="detail-table">
+        <tr><td class="k">رشته قبولی</td><td class="v">پزشکی عمومی</td></tr>
+        <tr><td class="k">دانشگاه محل قبولی</td><td class="v">دانشگاه دولتی مشهد</td></tr>
+        <tr><td class="k">حوزه امتحانی</td><td class="v" id="outCity">تهران، منطقه ۲</td></tr>
+        <tr><td class="k">کد رشته امتحانی</td><td class="v" id="outCode">۳۰۵۰۱۰</td></tr>
+        <tr><td class="k">نمره کل (تراز)</td><td class="v" id="outScore">۹۵۵۰</td></tr>
+        <tr><td class="k">سهمیه</td><td class="v">آزاد</td></tr>
+        <tr><td class="k">وضعیت کارنامه</td><td class="v">قطعی</td></tr>
+      </table>
 
-    <div class="result-actions">
-      <button type="button" class="action-blue" id="issueBtn">صدور گواهی استعلام</button>
-      <button type="button" class="action-red" id="restartBtn">شروع مجدد</button>
+      <div class="rank-box">
+        <div class="k">رتبه در گروه آزمایشی</div>
+        <div class="v">۷۳۸</div>
+        <div class="field-name" id="outGroup2">علوم تجربی</div>
+      </div>
+
+      <div class="barcode"></div>
+      <div class="barcode-num" id="outBarcode">۳۶۱۰۹۶۵۵۰۹۰۰۱۴۰۵</div>
+
     </div>
   </div>
-
-  <p class="note"></p>
 </main>
 
+<footer>
+  © ۲۰۲۶ سازمان سنجش آموزش کشور — تمامی حقوق محفوظ است.
+</footer>
+
 <script>
-// داده‌های آزمایشی - در نسخه واقعی با API سرور جایگزین می‌شود
-const demoRecords = {
-  "140165980214": {
-    name: "فاطمه برادری",
-    nationalId: "۰۰۵۴۵۲۸۷۷۱",
-    field: "روانشناسی بالینی",
-    degree: "کارشناسی ارشد",
-    unit: "تهران مرکزی"
-  },
-  "140365215474": {
-    name: "محمد طاهر تمهیدی",
-    nationalId: "۱۴۰۵۸۵۳۲۰۲۵۴",
-    field: "پزشکی عمومی",
-    degree: "دکتری",
-    unit: "علوم‌پزشکی-تهران"
-  },
-  "140065874121": {
-    name: "میلاد استادپور",
-    nationalId: "۱۳۹۲۸۴۵۳۸۷",
-    field: "مدیریت بازرگانی",
-    degree: "کارشناسی",
-    unit: "واحد تهران مرکزی"
-  },
-  "140554601594": {
-    name: "هادی افروزی",
-    nationalId: "۲۰۰۳۲۹۸۱۵۰",
-    field: "کاردرمانی",
-    degree: "کارشناسی",
-    unit: "واحد علوم پزشکی تهران"
-  },
-  "2300844125": {
-    name: "حامد شفیعیان",
-    nationalId: "۲۳۰۰۸۴۴۱۲۵",
-    field: "مهندسی تکنولوژی کامپیوتر نرم افزار",
-    degree: "کارشناسی",
-    unit: "شیراز"
-  },
-  "140065326587": {
-    name: "سیده سمیه رجبی",
-    nationalId: "۱۴۰۰۶۵۳۲۶۵۸۷",
-    field: "اتاق عمل",
-    degree: "کارشناسی",
-    unit: "علوم پزشکی تهران"
-  },
-  "139965326587": {
-    name: "مصطفی کرامت",
-    nationalId: "۱۷۴۱۸۰۰۲۵۰",
-    field: "مهندسی صنایع گرایش تحلیل سیستم ها",
-    degree: "کارشناسی ناپیوسته",
-    unit: "واحد تهران مرکزی"
-  },
-  "140365213254": {
-    name: "مسعود همتی",
-    nationalId: "۴۹۴۹۰۰۸۳۴۱",
-    field: "حسابداری",
-    degree: "کارشناسی ناپیوسته",
-    unit: "واحد تهران مرکزی"
-  },
-  "140574325874": {
-    name: "رضا باقری پلمی",
-    nationalId: "۱۸۳۰۱۰۳۴۵۸",
-    field: "ایمنی بهداشت کار HSE",
-    degree: "کاردانی",
-    unit: "واحد اهواز"
-  },
-  "140574328741": {
-    name: "صفر عباسی",
-    nationalId: "۱۹۷۱۵۷۱۶۲۸",
-    field: "مکانیک صنایع",
-    degree: "کاردانی",
-    unit: "اهواز"
-  },
-  "140265321454": {
-    name: "امین خان آقائی",
-    nationalId: "۳۰۷۱۲۱۶۶۳۷",
-    field: "مهندسی حرفه ای ایمنی صنعتی",
-    degree: "کارشناسی",
-    unit: "بندرعباس"
+document.getElementById('gateForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const nid = document.getElementById('gateNid').value.trim();
+  const cand = document.getElementById('gateCand').value.trim();
+  const gateErr = document.getElementById('gateErr');
+
+  if(!/^\d{10}$/.test(nid)){
+    gateErr.style.display = 'block';
+    return;
   }
-};
+  gateErr.style.display = 'none';
 
-const formCard = document.getElementById('formCard');
-const resultView = document.getElementById('resultView');
-const statusBanner = document.getElementById('statusBanner');
-const statusTitle = document.getElementById('statusTitle');
-const statusSub = document.getElementById('statusSub');
-const personCard = document.getElementById('personCard');
-const submitBtn = document.getElementById('submitBtn');
-const captchaError = document.getElementById('captchaError');
+  document.getElementById('nid').value = nid;
+  if(cand) presetCandNo = cand;
 
-// تبدیل اعداد فارسی/عربی به انگلیسی
-function toEnglishDigits(str){
-  const persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
-  const arabic  = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
-  return str.split('').map(ch => {
-    let i = persian.indexOf(ch);
-    if(i > -1) return i;
-    i = arabic.indexOf(ch);
-    if(i > -1) return i;
-    return ch;
-  }).join('');
+  document.getElementById('gateScreen').style.display = 'none';
+  document.getElementById('mainScreen').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+let presetCandNo = null;
+
+function toFaDigits(str){
+  const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+  return String(str).replace(/[0-9]/g, d => fa[d]);
 }
-
-// کپچای ساده
-let captchaAnswer = 0;
-const canvas = document.getElementById('captchaCanvas');
-const ctx = canvas.getContext('2d');
-
-function drawCaptcha(){
-  const a = Math.floor(Math.random()*9)+1;
-  const b = Math.floor(Math.random()*9)+1;
-  captchaAnswer = a + b;
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = '#FAFBFC';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.font = '600 22px Vazirmatn, sans-serif';
-  ctx.fillStyle = '#1B2A5B';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(a + ' + ' + b + ' = ?', 14, 30);
-  ctx.strokeStyle = 'rgba(43,62,126,0.3)';
-  for(let i=0;i<4;i++){
-    ctx.beginPath();
-    ctx.moveTo(Math.random()*canvas.width, Math.random()*canvas.height);
-    ctx.lineTo(Math.random()*canvas.width, Math.random()*canvas.height);
-    ctx.stroke();
-  }
-}
-drawCaptcha();
-document.getElementById('refreshCaptcha').addEventListener('click', drawCaptcha);
 
 document.getElementById('inquiryForm').addEventListener('submit', function(e){
   e.preventDefault();
-  const code = toEnglishDigits(document.getElementById('trackingCode').value.trim());
-  const userAnswer = toEnglishDigits(document.getElementById('captchaAnswer').value.trim());
-  const codeError = document.getElementById('codeError');
+  const nid = document.getElementById('nid').value.trim();
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const birth = document.getElementById('birth').value.trim();
+  const group = document.getElementById('group').value;
+  const season = document.getElementById('season').value;
+  const err = document.getElementById('errMsg');
+  const result = document.getElementById('result');
 
-  if(!code){
-    codeError.classList.add('show');
+  if(!/^\d{10}$/.test(nid)){
+    err.style.display = 'block';
+    result.style.display = 'none';
     return;
   }
-  codeError.classList.remove('show');
+  err.style.display = 'none';
 
-  if(parseInt(userAnswer, 10) !== captchaAnswer){
-    captchaError.classList.add('show');
-    drawCaptcha();
-    document.getElementById('captchaAnswer').value = '';
-    return;
-  }
-  captchaError.classList.remove('show');
+  document.getElementById('outName').textContent = (fname + ' ' + lname).trim() || 'علی اربابی';
+  document.getElementById('outNid').textContent = toFaDigits(nid);
+  document.getElementById('outBirth').textContent = birth || '۱۳۷۵/۰۸/۱۵';
+  document.getElementById('outCandNo').textContent = toFaDigits(presetCandNo || '۱۵۴۷۷۱۲');
+  document.getElementById('outGroup').textContent = group;
+  document.getElementById('outGroup2').textContent = group;
+  document.getElementById('outSeason').textContent = season;
+  document.getElementById('outCity').textContent = 'تهران، منطقه ۲';
+  document.getElementById('outCode').textContent = toFaDigits('305' + nid.slice(2,5));
+  document.getElementById('outScore').textContent = toFaDigits((9200 + (parseInt(nid.slice(-3))||0)));
+  document.getElementById('outBarcode').textContent = toFaDigits(nid + '00' + season.slice(-4));
 
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'در حال بررسی...';
+  const now = new Date();
+  document.getElementById('dateText').textContent =
+    now.toLocaleDateString('fa-IR', {year:'numeric', month:'long', day:'numeric'});
 
-  setTimeout(function(){
-    const record = demoRecords[code];
-    formCard.style.display = 'none';
-    resultView.classList.add('show');
-
-    if(record){
-      statusBanner.className = 'status-banner ok';
-      statusTitle.textContent = 'اطلاعات دانشنامه معتبر است';
-      statusSub.textContent = 'اطلاعات دانش‌آموخته معتبر و مورد تایید است';
-      document.getElementById('pName').textContent = record.name;
-      document.getElementById('pNid').textContent = record.nationalId;
-      document.getElementById('pField').textContent = record.field;
-      document.getElementById('pDegree').textContent = record.degree;
-      document.getElementById('pUnit').textContent = record.unit;
-      personCard.style.display = 'block';
-    } else {
-      statusBanner.className = 'status-banner err';
-      statusTitle.textContent = 'موردی یافت نشد';
-      statusSub.textContent = 'اطلاعات واردشده با هیچ رکوردی مطابقت ندارد';
-      personCard.style.display = 'none';
-    }
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'بررسی دانشنامه';
-  }, 700);
-});
-
-document.getElementById('restartBtn').addEventListener('click', function(){
-  resultView.classList.remove('show');
-  formCard.style.display = 'block';
-  document.getElementById('inquiryForm').reset();
-  drawCaptcha();
-});
-
-document.getElementById('issueBtn').addEventListener('click', function(){
-  alert('در نسخه واقعی، این دکمه یک فایل PDF گواهی صادر می‌کند.');
+  result.style.display = 'block';
+  result.scrollIntoView({behavior:'smooth', block:'start'});
 });
 </script>
 
